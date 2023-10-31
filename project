@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    float marks, points, hours, totalp = 0, totalh = 0, gpa;
+    string course;
+
+    cout << "Welcome to GPA Calculator" << endl;
+
+    for (int i = 1;; i++) {
+        cout << "Enter Course #" << i << " name: ";
+        cin >> course;
+
+        if (course == "stop")
+            break;
+
+        cout << "Enter " << course << " Credit Hours: ";
+        cin >> hours;
+
+        mark:
+        cout << "Enter " << course << "'s marks from 60 to 100: ";
+        cin >> marks;
+    
+        if (marks <=
+        
+        
+        
+        
+        
+        
+        
+    }
+
+        totalp += points;
+        totalh += hours;
+    }
+
+    gpa = totalp / totalh;
+
+    cout << "Your GPA is: " << gpa;
+}

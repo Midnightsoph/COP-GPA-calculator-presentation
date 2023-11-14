@@ -1,61 +1,71 @@
 #include <iostream>
 using namespace std;
 
+// GPA Calculator
+
 class studentGPA{
 private:
-    int classes;
+    int classNumber;
     char* letterGrades;
     float* creditHours;
     float gpa, points;
-int studentID;
+    int studentID;
+    float totalGradePoints = 0;
+    float totalCredits = 0;
 public:
-    studentGPA(){
-    cout << "Welcome to GPA Calculator!" << endl << endl;
+studentGPA(){
+    cout << "\nWelcome to GPA Calculator!" << endl << endl;
     cout << "To begin calculating your GPA, enter your student ID: ";
     cin >> studentID;
-    cout << "Enter your number of classes: ";
-    cin >> classes;
-char grade;
-    letterGrades = new char[classes];
-    creditHours = new float[classes];
+    numClasses:
+    cout << "\nEnter your number of classes: ";
+    cin >> classNumber;
+    if(classNumber <= 0){
+        cout << "Enter in a number greater than 0." << endl;
+        goto numClasses;
+    }
+    letterGrades = new char[classNumber];
+    creditHours = new float[classNumber];
     calculateGPA();
     cout << "\nStudent: " << studentID << endl;
     cout << "Your current GPA is: " << gpa << endl;
+    delete[] letterGrades;
+    delete[] creditHours;
 }
-void calculateGPA(){
-    float totalGradePoints = 0;
-    float totalCredits = 0;
-        for(int i = 0; i < classes; i++){
-creditHours:
-    cout << "Enter the amount of credit hours for class (1-4)"<< i + 1 << ": ";
-    cin >> creditHours[i];
-        if(creditHours[i] > 4 || creditHours[i] <1){
-    cout << "Enter a valid credit hour" << endl;
-        goto creditHours;
-}
-letterGrades:
-    cout << "Enter the letter grade for class (A, B, C, D, F)" << i + 1 << ": ";
-    cin >> letterGrades[i];
-        if(letterGrades[i] == 'A')
-    points = 4.0 * creditHours[i];
+    void calculateGPA(){
+        for(int i = 0; i < classNumber; i++){
+            creditHours:
+            cout << "\nEnter the amount of credit hours (1-4) for class " << i + 1 << ": ";
+            cin >> creditHours[i];
+            if(creditHours[i] > 4 || creditHours[i] <1){
+                cout << "Enter a valid credit hour." << endl;
+                goto creditHours;
+            }
+            letterGrades:
+            cout << "Enter the letter grade for class (A, B, C, D, F) " << i + 1 << ": ";
+            cin >> letterGrades[i];
+            if(letterGrades[i] == 'A')
+                points = 4.0 * creditHours[i];
             else if(letterGrades[i] == 'B')
-    points = 3.0 * creditHours[i];
+                points = 3.0 * creditHours[i];
             else if(letterGrades[i] == 'C')
-    points = 2.0 * creditHours[i];
+                points = 2.0 * creditHours[i];
             else if(letterGrades[i] == 'D')
-    points = 1.0 * creditHours[i];
+                points = 1.0 * creditHours[i];
             else if(letterGrades[i] == 'F')
-    points = 0.0 * creditHours[i]; 
-    else {
-        cout << "Please enter valid letter grade" << endl;
-        goto letterGrades;
-}
-    totalGradePoints += points;
-    totalCredits += creditHours[i];
-}
-    gpa = totalGradePoints / totalCredits;
+                points = 0.0 * creditHours[i];
+            else {
+                cout << "Please enter valid letter grade." << endl;
+                goto letterGrades;
+            }
+            totalGradePoints += points;
+            totalCredits += creditHours[i];
+        }
+        gpa = totalGradePoints / totalCredits;
     }
 };
-    int main() {
+
+int main() {
     studentGPA student;
-return 0;
+    return 0;
+}

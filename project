@@ -1,4 +1,164 @@
-rs classes? (y or n): ";
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <cctype>
+#include <limits>
+#include <algorithm>
+using namespace std;
+
+class Course {
+private:
+    string courseName;
+    int courseCredits;
+    char grade;
+
+public:
+    Course(string name, int credits){
+        courseName = name;
+        courseCredits = credits;
+        grade = 'A'; // default value
+    }
+
+    char getGrade(){
+        return grade;
+    }
+
+    void setGrade(char newGrade){
+        grade = newGrade;
+    }
+
+    int getCredits(){
+        return courseCredits;
+    }
+
+    string getName() {
+        return courseName;
+    }
+};
+
+class Student {
+private:
+    string studentID;
+    string gradeLevel;
+    Course* courses[7];
+    double gpa;
+
+public:
+    Student(string id, string gradeLevel){
+        studentID = id;
+        gpa = 0.0;
+        for (int i = 0; i < 7; ++i) {
+            courses[i] = nullptr;
+        }
+    }
+
+    string getStudentID() {
+        return studentID;
+    }
+
+    Course** getCourses() {
+        return courses;
+    }
+
+    void addCourse(string name, int credits) {
+        for (int i = 0; i < 7; ++i) {
+            if (courses[i] == nullptr) {
+                courses[i] = new Course(name, credits);
+                break;
+            }
+        }
+    }
+
+    void inputGrades() {
+        for (int i = 0; i < 7 && courses[i] != nullptr; ++i) {
+            cout << courses[i]->getName() << " (A, B, C, D, or F): ";
+            char grade;
+            cin >> grade;
+
+            while (!isValidGrade(grade)) {
+                cout << "Invalid grade. Please enter A, B, C, D, or F: ";
+                cin >> grade;
+            }
+            courses[i]->setGrade(grade);
+        }
+    }
+
+    double calculateGPA() {
+        double totalGradePoints = 0.0;
+        int totalCredits = 0;
+
+        for (int i = 0; i < 7 && courses[i] != nullptr; ++i) {
+            totalGradePoints += gradePointScale(courses[i]->getGrade()) * courses[i]->getCredits();
+            totalCredits += courses[i]->getCredits();
+        }
+
+        if (totalCredits > 0) {
+            gpa = totalGradePoints / totalCredits;
+        }
+        return gpa;
+    }
+
+    string getGradeLevel() {
+        return gradeLevel;
+    }
+
+private:
+    bool isValidGrade(char grade) {
+        return toupper(grade) >= 'A' && toupper(grade) <= 'F' && toupper(grade) != 'E';
+    }
+
+    double gradePointScale(char grade) {
+        switch (toupper(grade)) {
+            case 'A':
+                return 4.0;
+            case 'B':
+                return 3.0;
+            case 'C':
+                return 2.0;
+            case 'D':
+                return 1.0;
+            default:
+                return 0.0;
+        }
+    }
+};
+
+int main() {
+    cout << "\nWelcome to High School Unweighted GPA Calculator!" << endl;
+    string studentID;
+    do {
+        cout << "\nEnter your student ID to begin (up to 8 digits): ";
+        cin >> studentID;
+
+        if (studentID.length() != 8 || !all_of(studentID.begin(), studentID.end(), ::isdigit)) {
+            cout << "Invalid student ID. Please enter 8 digits.";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    } while (studentID.length() != 8 || !all_of(studentID.begin(), studentID.end(), ::isdigit));
+
+    string inputGradeLevel;
+    bool validGradeLevel = false;
+
+    do {
+        cout << "Enter your current grade level (Freshman, Sophomore, Junior, Senior): ";
+        cin >> inputGradeLevel;
+        transform(inputGradeLevel.begin(), inputGradeLevel.end(), inputGradeLevel.begin(), ::tolower);
+
+        if (inputGradeLevel == "freshman" || inputGradeLevel == "sophomore" || inputGradeLevel == "junior" ||
+            inputGradeLevel == "senior") {
+            validGradeLevel = true;
+        } else {
+            cout << "Invalid grade level. Please enter Freshman, Sophomore, Junior, or Senior." << endl;
+        }
+
+    } while (!(inputGradeLevel == "freshman" || inputGradeLevel == "sophomore" || inputGradeLevel == "junior" ||
+               inputGradeLevel == "senior"));
+
+    string takingHonors;
+    bool validHonorsInput = false;
+    do {
+        cout << "\nAre you taking honors classes? (y or n): ";
         cin >> takingHonors;
         if (takingHonors == "y" || takingHonors == "Y" || takingHonors == "n" || takingHonors == "N") {
             validHonorsInput = true;
@@ -49,4 +209,3 @@ rs classes? (y or n): ";
     }
     return 0;
 }
-

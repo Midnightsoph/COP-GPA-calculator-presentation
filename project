@@ -183,6 +183,7 @@ int main() {
         student.addCourse("Honors Math", 4);
         student.addCourse("Honors English", 4);
         student.addCourse("Honors Science", 3);
+        student.addCourse("Honors History",3);
         student.addCourse("Honors Foreign Language", 3);
         student.addCourse("Honors Computer Literacy", 3);
         student.addCourse("Honors Elective", 2);

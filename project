@@ -45,8 +45,8 @@ private:
 
 public:
     Student(string id, string gradeLevel){
-        studentID = id;
-        gpa = 0.0;
+    studentID = id;
+    gpa = 0.0;
         for (int i = 0; i < 7; ++i) {
             courses[i] = nullptr;
         }
@@ -76,8 +76,8 @@ public:
             cin >> grade;
 
             while (!isValidGrade(grade)) {
-                cout << "Invalid grade. Please enter A, B, C, D, or F: ";
-                cin >> grade;
+                    cout << "Invalid grade. Please enter A, B, C, D, or F: ";
+                    cin >> grade;
             }
             courses[i]->setGrade(grade);
         }
@@ -194,7 +194,7 @@ int main() {
     double gpa = student.calculateGPA();
 
     cout << "\nStudent ID: " << student.getStudentID() << endl;
-    cout << "Grade Level: " << student.getGradeLevel() << endl;
+    cout << "Grade Level: " << inputGradeLevel << endl;
 
     cout << "\nCourses and Grades:\n";
     Course **courses = student.getCourses();
